@@ -6,33 +6,22 @@ set $mod Mod4
 
 # is used in the bar {} block below.
 #font pango:monospace 12
-#font pango:Liga SFMono Nerd Font bold 12
-font pango:JetBrainsMono Nerd Font 12
+font pango:Liga SFMono Nerd Font bold 12
+#font pango:JetBrainsMono Nerd Font 12
 
 
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
 
-# The combination of xss-lock, nm-applet and pactl is a popular choice, so
-# they are included here as an example. Modify as you see fit.
-
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
 
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-bindsym $mod+Mod1+l exec systemctl suspend
+bindsym $mod+Mod1+l exec betterlockscreen -l & sleep 2 && systemctl suspend
+#bindsym $mod+Mod1+l exec betterlockscreen -s 
 exec --no-startup-id sh -c 'sleep 2; xset s off'
 exec --no-startup-id sh -c 'sleep 2; xset s noblank'
 exec --no-startup-id sh -c 'sleep 2; xset -dpms'
-#exec --no-startup-id xset s off
-#exec --no-startup-id xset s noblank
-#exec --no-startup-id xset -dpms
-# NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
@@ -58,18 +47,13 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # start a terminal
-bindsym $mod+Return exec /home/eres/.local/kitty.app/bin/kitty
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec --no-startup-id rofi -show drun
-# A more modern dmenu replacement is rofi:
-# bindcode $mod+40 exec "rofi -modi drun,run -show drun"
-# There also is i3-dmenu-desktop which only displays applications shipping a
-# .desktop file. It is a wrapper around dmenu, so you need that installed.
-# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+j focus left
@@ -117,9 +101,6 @@ bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
-
-# focus the child container
-#bindsym $mod+d focus child
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -196,31 +177,35 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available
 
-bar {
-	status_command i3status
-#default is bottom
-		position top
-		colors {
-		background #000000 
-		statusline #954535 #text color  including icon 
-		#statusline #927869 #text color  including icon 
-		statusline #ffffff
-		separator  #6c7086
-							#border backg   text
-		focused_workspace  #202020 #202020 #cdd6f4
-		active_workspace   #45475a #6F4E37 #cdd6f4
-		inactive_workspace #251A12 #251A12 #6c7086
-		urgent_workspace   #f38ba8 #f38ba8 #1e1e2e
-		binding_mode       #f9e2af #f9e2af #1e1e2e
-	}
-}
-
-exec --no-startup-id nitrogen --restore
+#bar {
+#	status_command i3status
+##default is bottom
+#		position top
+#		colors {
+#		background #000000 
+#		statusline #954535 #text color  including icon 
+#		#statusline #927869 #text color  including icon 
+#		statusline #ffffff
+#		separator  #6c7086
+#							#border backg   text
+#		focused_workspace  #202020 #202020 #cdd6f4
+#		active_workspace   #45475a #6F4E37 #cdd6f4
+#		inactive_workspace #251A12 #251A12 #6c7086
+#		urgent_workspace   #f38ba8 #f38ba8 #1e1e2e
+#		binding_mode       #f9e2af #f9e2af #1e1e2e
+#	}
+#}
+exec --no-startup-id dunst
+exec --no-startup-id nitrogen --restore 
 exec_always --no-startup-id picom -b
+#exec --no-startup-id start_conky_green
+#exec --no-startup-id start_conky_grey
+
+#exec --no-startup-id start_conky_maia
 #redhift control
 # Start Redshift automatically
 exec --no-startup-id redshift
-#exec_always --no-startup-id ~/.config/polybar/launch.sh &
+exec_always --no-startup-id ~/.config/polybar/launch.sh &
 
 # Redshift controls
 bindsym $mod+F11 exec --no-startup-id redshift -O 4500
@@ -228,16 +213,12 @@ bindsym $mod+F12 exec --no-startup-id redshift -x
 gaps inner 8
 gaps outer 5
 
-bindsym $mod+shift+f exec /usr/bin/nemo
-bindsym $mod+shift+b exec flatpak run org.mozilla.firefox
+bindsym $mod+shift+f exec nemo
+bindsym $mod+shift+b exec firefox
 bindsym $mod+shift+n exec /usr/bin/nitrogen
 bindsym $mod+shift+v exec /usr/bin/vlc
-bindsym $Mod+shift+y exec ~/Downloads/scrcpy/scrcpy-linux-x86_64-v4.0/scrcpy 
+bindsym $Mod+shift+y exec scrcpy
 bindsym Print exec maim -s ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
 
-
-
-
+bindsym $mod+shift+u exec betterlockscreen -u "$(grep '^file=' ~/.config/nitrogen/bg-saved.cfg | cut -d= -f2)" 
 default_border pixel  0
-
-

@@ -6,9 +6,10 @@ hl.config({
         accel_profile = "flat",
     },
     -- Uncomment the section below to enable software cursors; this can help with cursor display or behavior issues
-    -- cursor = {
-    --     no_hardware_cursors = 1,
-    -- },
+	cursor = {
+		enable_hyprcursor = false,
+		no_hardware_cursors = 1,
+	},
 })
 
 hl.gesture({ fingers = 4, direction = "horizontal", action = "workspace" })

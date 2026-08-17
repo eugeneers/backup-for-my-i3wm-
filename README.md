@@ -1,1 +1,1 @@
-Authur -->Dhanjit Boro. 
+Author -->Dhanjit Boro. 
